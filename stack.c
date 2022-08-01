@@ -4,6 +4,8 @@
 
 #define KONOREYKA 2398573459345735352
 
+
+
 enum ERROR_LIST
 {
     fignya,
@@ -16,17 +18,29 @@ enum ERROR_LIST
     LK_DAMAGED
 };
 
+typedef char stack_data_t;
+
 typedef struct _stack
 {
     size_t capacity;
     size_t cur_indx;
-    void* data;
+    stack_data_t* data;
     int hash;
     size_t base_cap;
 
 } my_stack;
 
-typedef char stack_data_t;
+int IsOkey (my_stack* stack);
+
+#if defined DBG_MODE
+
+#define STACK_ASSERT( stack_ptr ) \
+if ((int ErrCode = IsOkey (stack_ptr)) != 0) ErrPrint (ErrCode); \
+return ErrCode; 
+
+#else
+#define STACK_ASSERT( stack_ptr ) return 0;
+#endif
 
 void* DataSafe (void* data, size_t nel, size_t width) 
 {
@@ -50,11 +64,42 @@ long long int HashFunc (void* data, size_t num_of_bytes)
     return hash;
 }
 
+int StructHash (my_stack* stack)
+{
+    STACK_ASSERT (stack);
+
+    int d_hash = HashFunc (stack -> data, stack -> capacity * sizeof (stack_data_t))
+    stack -> hash = 0;
+
+    int s_hash = HashFunc (stack, sizeof (my_stack));
+
+    stack -> hash = d_hash + s_hash;
+
+    STACK_ASSERT (stack);
+}
+
+int HashComp (my_stack* stack)
+{
+    int stack_hash = stack -> hash;
+
+    int func_hash = HashFunc (stack -> data, sizeof (stack_data_t) * stack -> capacity); 
+    stack -> hash = 0;
+    func_hash += HashFunc (stack, sizeof (my_stack));
+
+    stack -> hash = stack_hash;
+
+    return (stack_hash == func_hash) ? 1 : 0;
+    
+}
+
 int IsOkey (my_stack* stack)
 {
     if (stack         == NULL) return STACK_NULL;
     if (stack -> data == NULL) return DATA_NULL;
     if (stack -> cur_indx >= stack -> capacity) return STACK_OVERFLOW;
+    if (*((long long int*)stack -> data - 1) != KONOREYKA) return LK_DAMAGED;
+    if (*(long long int*)(stack -> data + stack -> capacity) != KONOREYKA) return RK_DAMAGED;
+    if (HashComp (stack)) return HASH_DAMAGED; 
 
     return 0;        
 } 
@@ -82,15 +127,6 @@ void ErrPrint (int ErrCode)
     }
 }
 
-#if defined DBG_MODE
-
-#define STACK_ASSERT( stack_ptr ) \
-if ((int ErrCode = IsOkey (stack_ptr)) != 0) ErrPrint (ErrCode); \
-return ErrCode; 
-
-#else
-#define STACK_ASSERT( stack_ptr ) return 0;
-#endif
 
 void HexPrint (void* elem, size_t size)
 {
@@ -192,11 +228,13 @@ void* ResizeDown (void* data, size_t* cur_size)
 
 my_stack* StackResize (my_stack* stack) 
 {
-    assert (stack != NULL);
+    STACK_ASSERT (stack);
 
     if (stack -> cur_indx == stack -> capacity)
     {
         stack -> data = ResizeUp (stack -> data - 8, &stack -> capacity);
+
+        STACK_ASSERT (stack);
         return stack;
 
     }
@@ -204,8 +242,60 @@ my_stack* StackResize (my_stack* stack)
     if (stack -> cur_indx < (stack -> capacity) / 4 && stack -> cur_indx > stack -> base_cap)
     {
         stack -> data = ResizeDown (stack -> data - 8, &stack -> capacity);
+
+        STACK_ASSERT (stack);
         return stack;
     }
 
     return stack;
 }
+
+
+int push (my_stack* stack, stack_data_t* elem)
+{
+    STACK_ASSERT (stack);
+
+    StackResize (stack);
+
+    stack -> data[stack -> cur_indx] = *elem;
+    stack -> cur_indx ++;
+
+    STACK_ASSERT (stack);
+
+}
+
+int pop (my_stack* stack, stack_data_t* p_elem)
+{
+    STACK_ASSERT (stack);
+    if (stack -> cur_indx == 0)
+    {
+        return STACK_UNDERFLOW;
+    }
+
+    stack -> cur_indx --;
+    *p_elem = stack -> data [stack -> cur_indx];
+
+    StackResize (stack);
+
+    STACK_ASSERT (stack);
+
+}
+
+
+int main ()
+{
+
+    return 0;
+}
+
+int IsOkey (my_stack* stack)
+{
+    if (stack         == NULL) return STACK_NULL;
+    if (stack -> data == NULL) return DATA_NULL;
+    if (stack -> cur_indx >= stack -> capacity) return STACK_OVERFLOW;
+    if (*((long long int*)stack -> data - 1) != KONOREYKA) return LK_DAMAGED;
+    if (*(long long int*)(stack -> data + stack -> capacity) != KONOREYKA) return RK_DAMAGED;
+    if (HashComp (stack)) return HASH_DAMAGED; 
+
+    return 0;        
+} 
