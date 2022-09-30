@@ -1,0 +1,74 @@
+--------------STACK DUMP occurred----------------
+It was called in func StackPush, and on the line 489
+The stack address: [0x0]
+Dump cannot be processed further becouse stack has NULL pointer
+------------- DUMP finished ---------------
+
+--------------STACK DUMP occurred----------------
+It was called in func StackPush, and on the line 489
+The stack address: [0x0]
+Dump cannot be processed further becouse stack has NULL pointer
+------------- DUMP finished ---------------
+
+--------------STACK DUMP occurred----------------
+It was called in func StackPush, and on the line 489
+The stack address: [0x0]
+Dump cannot be processed further becouse stack has NULL pointer
+------------- DUMP finished ---------------
+
+--------------STACK DUMP occurred----------------
+It was called in func StackPush, and on the line 489
+The stack address: [0x0]
+Dump cannot be processed further becouse stack has NULL pointer
+------------- DUMP finished ---------------
+
+--------------STACK DUMP occurred----------------
+It was called in func StackPush, and on the line 489
+The stack address: [0x0]
+Dump cannot be processed further becouse stack has NULL pointer
+------------- DUMP finished ---------------
+
+--------------STACK DUMP occurred----------------
+It was called in func StackPush, and on the line 489
+The stack address: [0x0]
+Dump cannot be processed further becouse stack has NULL pointer
+------------- DUMP finished ---------------
+
+--------------STACK DUMP occurred----------------
+It was called in func StackPush, and on the line 489
+The stack address: [0x0]
+Dump cannot be processed further becouse stack has NULL pointer
+------------- DUMP finished ---------------
+
+--------------STACK DUMP occurred----------------
+It was called in func StackPush, and on the line 489
+The stack address: [0x0]
+Dump cannot be processed further becouse stack has NULL pointer
+------------- DUMP finished ---------------
+
+--------------STACK DUMP occurred----------------
+It was called in func StackPush, and on the line 489
+The stack address: [0x0]
+Dump cannot be processed further becouse stack has NULL pointer
+------------- DUMP finished ---------------
+
+--------------STACK DUMP occurred----------------
+It was called in func StackPush, and on the line 489
+The stack address: [0x0]
+Dump cannot be processed further becouse stack has NULL pointer
+------------- DUMP finished ---------------
+
+--------------STACK DUMP occurred----------------
+It was called in func StackPush, and on the line 489
+The stack address: [0x0]
+Dump cannot be processed further becouse stack has NULL pointer
+------------- DUMP finished ---------------
+
+--------------STACK DUMP occurred----------------
+It was called in func StackPop, and on the line 468
+The stack address: [0x7ffee810d9a0]
+The data begining address: [0x6060000002c8]
+Stack capacity now is [10]
+Number of elems in stack now is [0]
+------------- DUMP finished ---------------
+
